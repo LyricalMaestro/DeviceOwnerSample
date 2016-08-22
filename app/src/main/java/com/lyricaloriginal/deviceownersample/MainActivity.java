@@ -145,5 +145,6 @@ public class MainActivity extends AppCompatActivity {
         mClearDeviceOwnerBtn.setEnabled(enable);
         mPolicyAutoGrantedBtn.setEnabled(enable);
         mPolicyPromptBtn.setEnabled(enable);
+        mSwitchUninstallBlockBtn.setEnabled(enable);
     }
 }
