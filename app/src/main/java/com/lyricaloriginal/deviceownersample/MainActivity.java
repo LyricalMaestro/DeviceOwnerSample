@@ -8,6 +8,7 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
+    private Button mInstallLocalAppBtn;
     private Button mClearDeviceOwnerBtn;
 
     private DevicePolicyManager mDpm;
@@ -16,12 +17,22 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mInstallLocalAppBtn = (Button) findViewById(R.id.install_app_btn);
+        mInstallLocalAppBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
         mClearDeviceOwnerBtn = (Button) findViewById(R.id.clear_device_owner_btn);
         mClearDeviceOwnerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /**
+                 * DeviceOwnerの解除
+                 */
                 mDpm.clearDeviceOwnerApp(getPackageName());
-                v.setEnabled(false);
+                setButtonEnable(false);
             }
         });
         mDpm = (DevicePolicyManager) getSystemService(DEVICE_POLICY_SERVICE);
@@ -30,6 +41,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        mClearDeviceOwnerBtn.setEnabled(mDpm.isDeviceOwnerApp(getPackageName()));
+        setButtonEnable(mDpm.isDeviceOwnerApp(getPackageName()));
+    }
+
+    private void setButtonEnable(boolean enable) {
+        mInstallLocalAppBtn.setEnabled(enable);
+        mClearDeviceOwnerBtn.setEnabled(enable);
     }
 }

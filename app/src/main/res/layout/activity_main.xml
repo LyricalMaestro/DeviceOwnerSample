@@ -10,8 +10,15 @@
     tools:context="com.lyricaloriginal.deviceownersample.MainActivity">
 
     <Button
-        android:id="@+id/clear_device_owner_btn"
-        android:text="clear device owner"
+        android:id="@+id/install_app_btn"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="install local apk" />
+
+    <Button
+        android:id="@+id/clear_device_owner_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/install_app_btn"
+        android:text="clear device owner" />
 </RelativeLayout>
