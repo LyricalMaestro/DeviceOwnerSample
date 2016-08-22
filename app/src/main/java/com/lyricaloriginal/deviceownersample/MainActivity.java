@@ -24,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_STORAGE_PERMISSION = 1;
 
     private Button mInstallLocalAppBtn;
+    private Button mPolicyAutoGrantedBtn;
+    private Button mPolicyPromptBtn;
     private Button mClearDeviceOwnerBtn;
 
     private DevicePolicyManager mDpm;
@@ -39,30 +41,28 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        findViewById(R.id.policy_auto_granted_btn).setOnClickListener(new View.OnClickListener() {
+        mPolicyAutoGrantedBtn = (Button) findViewById(R.id.policy_auto_granted_btn);
+        mPolicyAutoGrantedBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mDpm.isDeviceOwnerApp(getPackageName())) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        ComponentName cn = new ComponentName(MainActivity.this, MyDeviceAdminReceiver.class);
-                        mDpm.setPermissionPolicy(cn, DevicePolicyManager.PERMISSION_POLICY_AUTO_GRANT);
-                        Toast.makeText(MainActivity.this, "Policy Auto Granted", Toast.LENGTH_SHORT).show();
-                    }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    ComponentName cn = new ComponentName(MainActivity.this, MyDeviceAdminReceiver.class);
+                    mDpm.setPermissionPolicy(cn, DevicePolicyManager.PERMISSION_POLICY_AUTO_GRANT);
+                    Toast.makeText(MainActivity.this, "Policy Auto Granted", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-        findViewById(R.id.policy_prompt_btn).setOnClickListener(new View.OnClickListener() {
+        mPolicyPromptBtn = (Button) findViewById(R.id.policy_prompt_btn);
+        mPolicyPromptBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mDpm.isDeviceOwnerApp(getPackageName())) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        /**
-                         * 元のM Permissionのポリシーに戻すときに使う
-                         */
-                        ComponentName cn = new ComponentName(MainActivity.this, MyDeviceAdminReceiver.class);
-                        mDpm.setPermissionPolicy(cn, DevicePolicyManager.PERMISSION_POLICY_PROMPT);
-                        Toast.makeText(MainActivity.this, "Policy Prompt", Toast.LENGTH_SHORT).show();
-                    }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    /**
+                     * 元のM Permissionのポリシーに戻すときに使う
+                     */
+                    ComponentName cn = new ComponentName(MainActivity.this, MyDeviceAdminReceiver.class);
+                    mDpm.setPermissionPolicy(cn, DevicePolicyManager.PERMISSION_POLICY_PROMPT);
+                    Toast.makeText(MainActivity.this, "Policy Prompt", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -127,8 +127,7 @@ public class MainActivity extends AppCompatActivity {
     private void setButtonEnable(boolean enable) {
         mInstallLocalAppBtn.setEnabled(enable);
         mClearDeviceOwnerBtn.setEnabled(enable);
-    }
-
-    private void requestStoragePermission() {
+        mPolicyAutoGrantedBtn.setEnabled(enable);
+        mPolicyPromptBtn.setEnabled(enable);
     }
 }
