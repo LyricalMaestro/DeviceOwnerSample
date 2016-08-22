@@ -23,9 +23,13 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE_STORAGE_PERMISSION = 1;
 
+    //  これはお手持ちのアプリのpackage nameを指定してください。
+    private static final String TARGET_UNINSTALL_PACKAGE = "";
+
     private Button mInstallLocalAppBtn;
     private Button mPolicyAutoGrantedBtn;
     private Button mPolicyPromptBtn;
+    private Button mSwitchUninstallBlockBtn;
     private Button mClearDeviceOwnerBtn;
 
     private DevicePolicyManager mDpm;
@@ -79,6 +83,18 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
                 showDcimList();
+            }
+        });
+        mSwitchUninstallBlockBtn = (Button) findViewById(R.id.switch_uninstall_block_btn);
+        mSwitchUninstallBlockBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ComponentName cn = new ComponentName(MainActivity.this, MyDeviceAdminReceiver.class);
+                if (mDpm.isUninstallBlocked(cn, TARGET_UNINSTALL_PACKAGE)) {
+                    mDpm.setUninstallBlocked(cn, TARGET_UNINSTALL_PACKAGE, false);
+                } else {
+                    mDpm.setUninstallBlocked(cn, TARGET_UNINSTALL_PACKAGE, true);
+                }
             }
         });
         mClearDeviceOwnerBtn = (Button) findViewById(R.id.clear_device_owner_btn);

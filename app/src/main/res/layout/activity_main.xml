@@ -35,6 +35,12 @@
         android:text="show DCIM file list" />
 
     <Button
+        android:id="@+id/switch_uninstall_block_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="switch uninstall block" />
+
+    <Button
         android:id="@+id/clear_device_owner_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
