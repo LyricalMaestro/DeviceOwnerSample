@@ -1,9 +1,11 @@
 package com.lyricaloriginal.deviceownersample;
 
 import android.Manifest;
+import android.app.PendingIntent;
 import android.app.admin.DevicePolicyManager;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,6 +14,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.PermissionChecker;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -21,10 +24,14 @@ import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG = MainActivity.class.getName();
+
     private static final int REQUEST_CODE_STORAGE_PERMISSION = 1;
 
     //  これはお手持ちのアプリのpackage nameを指定してください。
     private static final String TARGET_UNINSTALL_PACKAGE = "";
+    //  ここでサイレントインストールするapkファイルを設定してください。
+    private static final File TARGET_INSTALL_APK = null;
 
     private Button mInstallLocalAppBtn;
     private Button mPolicyAutoGrantedBtn;
@@ -42,7 +49,17 @@ public class MainActivity extends AppCompatActivity {
         mInstallLocalAppBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    try {
+                        Intent forPendingIntent = new Intent("TEST");
+                        PendingIntent pendingIntent = PendingIntent.getActivity(
+                                getApplicationContext(), 0, forPendingIntent, 0);
+                        ApkInstaller apkInstaller = new ApkInstaller();
+                        apkInstaller.installApk(MainActivity.this, TARGET_INSTALL_APK, pendingIntent);
+                    } catch (Exception e) {
+                        Log.e(TAG, e.getMessage(), e);
+                    }
+                }
             }
         });
         mPolicyAutoGrantedBtn = (Button) findViewById(R.id.policy_auto_granted_btn);
